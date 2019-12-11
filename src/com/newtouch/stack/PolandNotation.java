@@ -11,6 +11,7 @@ public class PolandNotation {
 		String expression = "1+((2+3)*4)-5";
 		List<String> list = toInfixExpressionList(expression);
 		System.out.println(list);
+		System.out.println(list);
 
 		// (3+4)*5-6
 //		String suffixExpression = "3 4 + 5 * 6 - ";
