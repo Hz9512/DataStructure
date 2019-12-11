@@ -6,12 +6,43 @@ import java.util.Stack;
 
 public class PolandNotation {
 	public static void main(String[] args) {
-		// (3+4)*5-6
-		String suffixExpression = "3 4 + 5 * 6 - ";
-		List<String> list = getListString(suffixExpression);
+
+		// 将中缀表达式转成后缀表达式
+		String expression = "1+((2+3)*4)-5";
+		List<String> list = toInfixExpressionList(expression);
 		System.out.println(list);
-		int res = caculate(list);
-		System.out.println("计算结果为：" + res);
+
+		// (3+4)*5-6
+//		String suffixExpression = "3 4 + 5 * 6 - ";
+//		List<String> list = getListString(suffixExpression);
+//		System.out.println(list);
+//		int res = caculate(list);
+//		System.out.println("计算结果为：" + res);
+
+	}
+
+	// 将中缀表达式转成对应的List
+	public static List<String> toInfixExpressionList(String s) {
+		List<String> ls = new ArrayList<>();
+		int i = 0;// 指针
+		String str;// 用于拼接多位数
+		char c;
+		do {
+			// 如果是非数字
+			if ((c = s.charAt(i)) < 48 || (c = s.charAt(i)) > 57) {
+				ls.add("" + c);
+				i++;
+			} else {
+				// 如果是数字
+				str = "";
+				while (i < s.length() && (c = s.charAt(i)) >= 48 && (c = s.charAt(i)) <= 57) {
+					str += c;
+					i++;
+				}
+				ls.add(str);
+			}
+		} while (i < s.length());
+		return ls;
 
 	}
 
