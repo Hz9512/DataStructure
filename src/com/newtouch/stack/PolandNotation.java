@@ -11,7 +11,8 @@ public class PolandNotation {
 		String expression = "1+((2+3)*4)-5";
 		List<String> list = toInfixExpressionList(expression);
 		System.out.println(list);
-		System.out.println(list);
+		List<String> parseSuffixExpression = parseSuffixExpression(list);
+		System.out.println(parseSuffixExpression);
 
 		// (3+4)*5-6
 //		String suffixExpression = "3 4 + 5 * 6 - ";
@@ -44,7 +45,38 @@ public class PolandNotation {
 			}
 		} while (i < s.length());
 		return ls;
+	}
 
+	// 中缀表达式对应的List转成后缀表达式
+	public static List<String> parseSuffixExpression(List<String> ls) {
+		// 定义一个符号栈
+		Stack<String> stack = new Stack<>();
+		// 定义一个存储中间结果的List
+		List<String> list = new ArrayList<>();
+		// 遍历ls
+		for (String item : ls) {
+			if (item.matches("\\d+")) {
+				list.add(item);
+			} else if (item.equals("(")) {
+				stack.push(item);
+			} else if (item.equals(")")) {
+				while (!stack.peek().equals("(")) {
+					list.add(stack.pop());
+				}
+				stack.pop();// 把"("弹走
+			} else {
+				while (stack.size() != 0 && !stack.peek().equals("(")
+						&& Operation.getValue(stack.peek()) >= Operation.getValue(item)) {
+					list.add(stack.pop());
+				}
+				// 再将item压入栈
+				stack.push(item);
+			}
+		}
+		while (stack.size() != 0) {
+			list.add(stack.pop());
+		}
+		return list;
 	}
 
 	public static List<String> getListString(String suffixExpression) {
@@ -83,5 +115,35 @@ public class PolandNotation {
 			}
 		}
 		return Integer.parseInt(stack.pop());
+	}
+}
+
+//返回优先级
+class Operation {
+	private static int ADD = 1;
+	private static int SUB = 1;
+	private static int MUL = 2;
+	private static int DIV = 2;
+
+	public static int getValue(String operation) {
+		int result = 0;
+		switch (operation) {
+		case "+":
+			result = ADD;
+			break;
+		case "-":
+			result = SUB;
+			break;
+		case "*":
+			result = MUL;
+			break;
+		case "/":
+			result = DIV;
+			break;
+		default:
+			System.out.println("没有");
+			break;
+		}
+		return result;
 	}
 }
