@@ -29,7 +29,7 @@ public class Caculator {
 						// 运算结果入栈
 						numStack.push(res);
 						// 然后将当前操作符入栈
-						operStack.push(ch);
+						index=index-1;
 					} else {
 						// 如果当前操作符大于栈顶操作符优先级
 						operStack.push(ch);
